@@ -2,6 +2,11 @@ cmake_minimum_required(VERSION 3.10.0)
 
 project(gc_polyscope_example)
 
+# 在CMakeLists.txt的顶部添加
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON CACHE INTERNAL "")
+set(CMAKE_CXX_STANDARD 14) # 使用C++14
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 ### Configure output locations
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
@@ -65,10 +70,15 @@ add_subdirectory(deps/polyscope)
 
 # == Build our project stuff
 
-set(SRCS 
-  src/main.cpp
-	# add any other source files here
-)
+# set(SRCS 
+#   src/main.cpp
+#   src/ex1.cpp
+#   src/interface.cpp
+#   src/ex2.cpp
+#   src/data.cpp
+# 	# add any other source files here
+# )
+file(GLOB SRCS "src/*.cpp")
 
 
 # To change the name of your executable, change "gc_project" in the lines below to whatever you want

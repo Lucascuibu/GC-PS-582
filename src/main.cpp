@@ -1,24 +1,12 @@
-#include "geometrycentral/surface/manifold_surface_mesh.h"
-#include "geometrycentral/surface/meshio.h"
-#include "geometrycentral/surface/vertex_position_geometry.h"
-
-#include "geometrycentral/surface/direction_fields.h"
-
-#include "polyscope/polyscope.h"
-#include "polyscope/surface_mesh.h"
-
-#include "args/args.hxx"
-#include "imgui.h"
+#include "interface.h"
 
 using namespace geometrycentral;
 using namespace geometrycentral::surface;
 
-// == Geometry-central data
-std::unique_ptr<ManifoldSurfaceMesh> mesh;
-std::unique_ptr<VertexPositionGeometry> geometry;
+// using namespace ImGui;
 
-// Polyscope visualization handle, to quickly add data to the surface
-polyscope::SurfaceMesh *psMesh;
+// == Geometry-central data
+
 
 // Some algorithm parameters
 float param1 = 42.0;
@@ -38,17 +26,18 @@ void doWork() {
 // A user-defined callback, for creating control panels (etc)
 // Use ImGUI commands to build whatever you want here, see
 // https://github.com/ocornut/imgui/blob/master/imgui.h
-void myCallback() {
+// void myCallback() {
 
-  if (ImGui::Button("do work")) {
-    doWork();
-  }
+//   if (ImGui::Button("do work")) {
+//     doWork();
+//   }
 
-  ImGui::SliderFloat("param", &param1, 0., 100.);
-}
+//   ImGui::SliderFloat("param", &param1, 0., 100.);
+// }
 
 int main(int argc, char **argv) {
 
+  std::cout << "Hello, wssorld!" << std::endl;
   // Configure the argument parser
   args::ArgumentParser parser("geometry-central & Polyscope example project");
   args::Positional<std::string> inputFilename(parser, "mesh", "A mesh file.");
@@ -75,7 +64,7 @@ int main(int argc, char **argv) {
   polyscope::init();
 
   // Set the callback function
-  polyscope::state::userCallback = myCallback;
+  // polyscope::state::userCallback = myCallback;
 
   // Load mesh
   std::tie(mesh, geometry) = readManifoldSurfaceMesh(args::get(inputFilename));
@@ -98,6 +87,8 @@ int main(int argc, char **argv) {
   auto vField =
       geometrycentral::surface::computeSmoothestVertexDirectionField(*geometry);
   psMesh->addVertexTangentVectorQuantity("VF", vField, vBasisX, vBasisY);
+  
+  polyscope::state::userCallback = meCallback;
 
   // Give control to the polyscope gui
   polyscope::show();
